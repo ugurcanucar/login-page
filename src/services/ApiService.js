@@ -13,7 +13,8 @@ apiGateway.interceptors.request.use(function (config) {
   return config;
 });
 
-apiService.signIn = async (email, password) => {
+apiService.login = async (email, password) => {
+  console.log(email, password);
   return await axios
     .post(API_ENDPOINT_URL + "Login/LoginByEmail", {
       email,

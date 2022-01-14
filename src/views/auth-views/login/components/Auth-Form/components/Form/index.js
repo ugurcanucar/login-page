@@ -1,13 +1,47 @@
-import { Checkbox, Form, Input, Button } from "antd";
-import React from "react";
+import { Checkbox, Form, Input, Button, Spin } from "antd";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  signIn,
+  showLoading,
+  showAuthMessage,
+  hideAuthMessage,
+} from "redux/actions/Auth";
+
 const rules = {
   required: [{ required: true, message: "Bu alan boş bırakılamaz." }],
-  email: [{}],
 };
-const AuthForm = () => {
+
+const AuthForm = (props) => {
+  let history = useNavigate();
+  const {
+    signIn,
+    token,
+    showMessage,
+    showAuthMessage,
+    showLoading,
+    hideAuthMessage,
+    loading,
+  } = props;
+  const onFinish = (e) => {
+    showLoading();
+    signIn(e.Email, e.Password);
+  };
+  useEffect(() => {
+    if (token !== null) {
+      history("/");
+    }
+    if (showMessage) {
+      setTimeout(() => {
+        hideAuthMessage();
+      }, 3000);
+    }
+  });
+
   return (
     <div className="login-form-wrapper">
-      <Form className="login-form" onFinish={(e) => console.log(e)}>
+      <Form className="login-form" onFinish={onFinish}>
         <Form.Item className="m-0" name="Email" rules={rules.required}>
           <Input placeholder="Email*" type="email" className="form-input" />
         </Form.Item>
@@ -33,7 +67,7 @@ const AuthForm = () => {
           </a>
         </div>
         <Form.Item>
-          <Button htmlType="submit" className="login-btn">
+          <Button htmlType="submit" className="login-btn" loading={loading}>
             Login
           </Button>
         </Form.Item>
@@ -42,4 +76,16 @@ const AuthForm = () => {
   );
 };
 
-export default AuthForm;
+const mapStateToProps = ({ auth }) => {
+  const { loading, message, showMessage, token } = auth;
+  return { loading, message, showMessage, token };
+};
+
+const mapDispatchToProps = {
+  signIn,
+  showAuthMessage,
+  showLoading,
+  hideAuthMessage,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthForm);

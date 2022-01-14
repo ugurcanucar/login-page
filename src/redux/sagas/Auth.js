@@ -1,28 +1,13 @@
-import { all, takeEvery, put, fork, call } from "redux-saga/effects";
+import { all, takeEvery, put, fork, call, select } from "redux-saga/effects";
 import { AUTH_TOKEN, SIGNIN, SIGNOUT } from "redux/constants/Auth";
 import {
   showAuthMessage,
   authenticated,
   signOutSuccess,
+  showLoading,
 } from "redux/actions/Auth";
 import ApiService from "services/ApiService";
-
-export function* signInWithFBEmail() {
-  yield takeEvery(SIGNIN, function* ({ payload }) {
-    const { email, password } = payload;
-    try {
-      const user = yield call(ApiService.signIn, email, password);
-      if (user.Success) {
-        localStorage.setItem(AUTH_TOKEN, user.Data.AccessToken);
-        yield put(authenticated(user.Data.AccessToken));
-      } else {
-        yield put(showAuthMessage(user.Message));
-      }
-    } catch (err) {
-      yield put(showAuthMessage(err));
-    }
-  });
-}
+import apiService from "services/ApiService";
 
 export function* signOut() {
   yield takeEvery(SIGNOUT, function* () {
@@ -39,7 +24,35 @@ export function* signOut() {
     }
   });
 }
+export function* Login() {
+  yield takeEvery(SIGNIN, function* ({ email, password }) {
+    const state = yield select();
+    console.log("TCL: yieldtakeEvery -> state", state);
 
+    try {
+      yield put(showLoading(true));
+      const response = yield call(apiService.login, email, password);
+      if (response.Success) {
+        yield put(authenticated(response.Data.AccessToken));
+      } else {
+        yield put(showAuthMessage(response.Message));
+      }
+    } catch (err) {
+      yield put(showAuthMessage("Bilgileriniz eksik veya hatalı."));
+    }
+  });
+}
+// export function* LogOut() {
+//   yield takeEvery("bbb", function* () {
+//     try {
+//       yield put(showLoading(true));
+//       yield put(signOutSuccess());
+//       yield put(ShoppingCartClear());
+//     } catch (err) {
+//       yield put(showAuthMessage("Bilgileriniz eksik veya hatalı."));
+//     }
+//   });
+// }
 export default function* rootSaga() {
-  yield all([fork(signInWithFBEmail), fork(signOut)]);
+  yield all([fork(Login), fork(signOut)]);
 }

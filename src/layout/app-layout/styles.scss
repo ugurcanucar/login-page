@@ -1,0 +1,219 @@
+$sider-background-color: #11101d;
+$sider-hover-color: #1d1b31;
+$sider-width: 260px;
+$sider-block-width: 78px;
+.sidebar {
+  @apply fixed top-0 left-0 h-full z-50;
+  width: $sider-width;
+  background: $sider-background-color;
+  transition: all 0.4s ease;
+  .logo-details {
+    @apply w-full flex items-center h-[60px];
+    transition: all 0.5s ease;
+
+    i {
+      @apply text-[30px] text-white text-center h-[50px];
+      min-width: $sider-block-width;
+      line-height: 50px;
+    }
+  }
+  .logo_name {
+    @apply text-white text-[22px] font-semibold;
+    transition: 0.3s ease;
+    transition-delay: 0.1s;
+  }
+
+  .nav-links {
+    @apply h-full overflow-visible;
+    padding: 30px 0 150px 0;
+    transition: all 0.4s ease;
+    &::-webkit-scrollbar {
+      @apply hidden;
+    }
+    li {
+      @apply cursor-pointer relative list-none;
+
+      &:hover {
+        background: $sider-hover-color;
+        .sub-menu.blank {
+          @apply top-1/2 translate-y-1/2;
+        }
+      }
+      &.showMenu {
+        .sub-menu {
+          @apply block;
+        }
+        i {
+          &.arrow {
+            transform: rotate(-180deg);
+          }
+        }
+      }
+      i {
+        @apply h-[50px] text-center text-white text-[15px];
+        line-height: 50px;
+        transition: all 0.3s ease;
+        min-width: $sider-block-width;
+      }
+      a {
+        @apply no-underline flex items-center;
+      }
+      .icon-link {
+        @apply flex items-center justify-between;
+      }
+      .link_name {
+        @apply text-[15px] font-normal text-white;
+      }
+      .sub-menu {
+        @apply -mt-[10px] hidden;
+
+        padding: 6px 6px 6px 80px;
+        background: $sider-hover-color;
+        a {
+          @apply text-white text-[15px] whitespace-nowrap opacity-60 hover:opacity-100;
+          padding: 5px 0;
+          transition: all 0.3s ease;
+        }
+        .link_name {
+          @apply hidden;
+        }
+        &.blank {
+          @apply opacity-0 pointer-events-none;
+          padding: 3px 20px 6px 16px;
+          transition: 0s;
+        }
+      }
+    }
+  }
+  .profile-details {
+    @apply fixed flex items-center cursor-default justify-between bottom-0;
+    width: $sider-width;
+
+    background: $sider-hover-color;
+    transition: all 0.4s ease;
+    padding: 6px 0;
+    i {
+      @apply pr-[16px] text-[17px] cursor-pointer hover:text-[#ca3131];
+      transition: 0.3s ease all;
+      min-width: 0 !important;
+    }
+    img {
+      @apply h-[52px] w-[52px] object-cover rounded-2xl;
+
+      margin: 0 0 0 15px;
+      background: $sider-background-color;
+      transition: all 0.4s ease;
+    }
+    .profile_name,
+    .job {
+      @apply text-white text-[18px] font-medium whitespace-nowrap;
+    }
+    .job {
+      @apply text-[12px];
+    }
+    .profile-content {
+      @apply flex items-center;
+    }
+  }
+  &.close {
+    width: $sider-block-width;
+    .nav-links {
+      li {
+        .icon-link {
+          @apply block;
+        }
+        i.arrow {
+          @apply hidden;
+        }
+        .sub-menu {
+          @apply absolute left-full mt-0 -top-[10px] opacity-0 pointer-events-none block;
+
+          padding: 10px 20px;
+          border-radius: 0 6px 6px 0;
+          transition: 0s;
+          &.blank {
+            @apply opacity-0 pointer-events-none;
+            padding: 3px 20px 6px 16px;
+            transition: 0s;
+            .link_name {
+              @apply min-h-[40px] flex items-center;
+            }
+          }
+
+          .link_name {
+            @apply opacity-100 text-[18px] block;
+          }
+        }
+
+        &:hover {
+          .sub-menu {
+            @apply top-0 opacity-100 pointer-events-auto;
+            transition: all 0.4s ease;
+            &.blank {
+              @apply top-1/2;
+              transform: translateY(-50%);
+            }
+          }
+        }
+        a {
+          .link_name {
+            @apply opacity-0 pointer-events-none;
+          }
+        }
+      }
+    }
+    .logo-details {
+      .logo_name {
+        @apply opacity-0 pointer-events-none;
+        transition-delay: 0s;
+      }
+    }
+    .nav-links {
+      li {
+        .sub-menu {
+          .link_name {
+            @apply block;
+          }
+        }
+      }
+    }
+    .profile-details {
+      width: $sider-block-width;
+      i,
+      .profile_name,
+      .job {
+        @apply hidden;
+      }
+      img {
+        @apply p-[10px];
+      }
+    }
+  }
+}
+
+.home-section {
+  @apply relative min-h-screen h-full;
+
+  left: $sider-width;
+  background: #e4e9f7;
+  transition: all 0.5s ease;
+  width: calc(100% - $sider-width);
+  .home-content {
+    @apply h-[60px] flex items-center;
+    .text,
+    .menu-bar {
+      @apply pl-4;
+      color: $sider-background-color;
+    }
+    .text {
+      @apply font-semibold text-[25px];
+    }
+    .menu-bar {
+      @apply text-[20px] cursor-pointer;
+    }
+  }
+}
+.sidebar.close ~ .home-section {
+  left: $sider-block-width;
+  width: calc(100% - $sider-block-width);
+}

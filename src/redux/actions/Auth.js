@@ -11,10 +11,11 @@ import {
   LANGUAGE_ID,
 } from "../constants/Auth";
 
-export const signIn = (user) => {
+export const signIn = (email, password) => {
   return {
     type: SIGNIN,
-    payload: user,
+    email,
+    password,
   };
 };
 export const setLanguage = (language) => {

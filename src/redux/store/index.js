@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import reducers from "../reducers";
 import createSagaMiddleware from "redux-saga";
+import { persistStore } from "redux-persist";
 import rootSaga from "../sagas/index";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -30,4 +31,6 @@ function configureStore(preloadedState) {
 
 const store = configureStore();
 
-export default store;
+const persistor = persistStore(store);
+
+export { store, persistor };

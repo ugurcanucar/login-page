@@ -1,6 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  @apply m-0 p-0 box-border;
+  font-family: "Poppins", sans-serif;
+}
+
 $main-color: #75c8f8;
 $main-color-focus: #419db9;
 $main-dark-color: #151c26;

@@ -1,5 +1,5 @@
 const dev = {
-  API_ENDPOINT_URL: "localendpoint",
+  API_ENDPOINT_URL: "https://localhost:44317/api/",
 };
 const prod = {
   API_ENDPOINT_URL: "apiendpoint",

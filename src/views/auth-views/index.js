@@ -7,11 +7,8 @@ export const AppViews = () => {
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <Routes>
-        <Route path={`${AUTH_PREFIX_PATH}/login`} element={<Login />} />
-        <Route
-          path="/auth*"
-          element={<Navigate to={`${AUTH_PREFIX_PATH}/login`} replace />}
-        />
+        <Route path={`login`} element={<Login />} />
+        <Route path="/*" element={<Navigate to="login" replace />} />
       </Routes>
     </Suspense>
   );

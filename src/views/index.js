@@ -13,7 +13,7 @@ export const Views = (props) => {
   return (
     <>
       <Routes>
-        <Route path={AUTH_PREFIX_PATH} element={<AuthLayout />} />
+        <Route path={`${AUTH_PREFIX_PATH}/*`} element={<AuthLayout />} />
         <Route
           path="/*"
           element={
